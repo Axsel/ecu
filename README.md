@@ -5,4 +5,4 @@ very late to the boat but i've wrapped together community knowledge with some of
   
 
 ## creds
-findings and work from prj, nyet, trev360, jmarcgit, nefmoto, and possibly otheres, where used here and there
+findings and work from prj, nyet, trev360, jmarcgit, nefmoto, and possibly otheres, is used here and there (sigs, structures, etc)
