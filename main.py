@@ -23,6 +23,9 @@ def main():
     # golf hall
     test("flashes/022906032E-0008.bin")
  
+    # golf hall, rear o2 delete
+    #test("flashes/patched/022906032E-0008_rearo2delete_eskonf_cdkat_cwdlsahk_no_cs.bin")
+
     # vr6 2.8 golf
     #test("flashes/022906032BG-0004.bin")
  

@@ -2,7 +2,7 @@ from utils.pattern import Pattern
 from utils.maputils import TableReader, Table
 from chipsets.c166.disasm import Disassembly
 from . import eskonf
-from .maps import cdkat, cdsls, cwdlsahk, catr, clrhk, kfkhfm, kfzw, snm16zuub, srl12zuub
+from .maps import cdkat, cdsls, cwdlsahk, catr, clrhk, kfkhfm, kfzw, snm16zuub, srl12zuub, mlhfm, mlofs
 
 
 class Me7Flash:
@@ -18,11 +18,11 @@ class Me7Flash:
 
         # TODO detect 7.1 or 7.1.1 or 7.5
 
-        # single cell maps
+        # single cell maps (as tables)
         self.found_vars = list()
-        # axises
+        # axises (as axises)
         self.found_axises = list()
-        # multiple cell maps
+        # multiple cell maps (as tables)
         self.found_maps = list()
 
         return
@@ -31,6 +31,8 @@ class Me7Flash:
         # needs me7.5 support
         print("[*] find_eskonf")
         if eskonf.find_eskonf(self):
+            eskonf_offset = self.eskonf["file_offset"]
+            print(f"eskonf 0x{eskonf_offset:X}")
             eskonf.print_eskonf(self)
         else: 
             print("[!] didnt find eskonf")
@@ -46,7 +48,7 @@ class Me7Flash:
             print("[!] didnt find cdsls")
 
         #
-        print("[*] find_cwdlsahk")
+        print("[*] find_cwdlsahk")
         if not cwdlsahk.find_cwdlsahk(self):
             print("[!] didnt find cwdlsahk")
 
@@ -60,17 +62,24 @@ class Me7Flash:
         if not clrhk.find_clrhk(self):
             print("[!] didnt find clrhk")
 
+        print("[*] find mlofs")
+        if not mlofs.find_mlofs(self):
+            print(" didnt find mlofs")
 
         print("[+] found vars:")
         for m in self.found_vars:
             reader = TableReader(m, self)
-            print("\t" + reader.table_name + " " + str(reader.table.cell.offset))
-            print("\t" + str(reader.read_datacell_at(0)))
+            print(f"\t {reader.table_name} 0x{reader.table.cell.offset:X}")
+            print(f"\t {reader.read_datacell_at(0)}")
 
         return
 
     def find_maps(self):
         #mapfinder.find_generic_maps(self)
+
+        print("[*] find mlhfm")
+        if not mlhfm.find_mlhfm(self):
+            print("[!] didnt find mlhfm")
 
         # find some axises
         print("[*] find snm16zuub")
@@ -128,7 +137,7 @@ class Me7Flash:
         print("[+] found maps:")
         for m in self.found_maps:
             reader = TableReader(m, self)
-            print("\t" + reader.table_name + " " + str(reader.table.cell.offset))
+            print(f"\t {reader.table_name} 0x{reader.table.cell.offset:X}")
 
         return
 
